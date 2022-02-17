@@ -1,6 +1,7 @@
 package com.qa.demo.TestPages;
 
 import java.awt.Desktop.Action;
+import java.time.Duration;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -9,13 +10,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.qa.demo.basePkg.AutomationBaseClass;
 
 public class ShoppingApparelPage extends  AutomationBaseClass{
-	
+	//WebDriverWait wait;
+	CartPage cp;
 	public ShoppingApparelPage() {
 		PageFactory.initElements(wd, this);
 	}
@@ -33,7 +36,7 @@ public class ShoppingApparelPage extends  AutomationBaseClass{
 	@FindBy(xpath="(//input[@class='qty-input'])[1]") WebElement quant;
 	@FindBy(id="updatecart") WebElement updatecart;
 	@FindBy(xpath="//input[@name='addtocart']") WebElement chkbox;
-	@FindBy(xpath="//button[@name='addtocartbutton']") WebElement addtocartbutton;
+	@FindBy(id="add-to-cart-button-16") WebElement addtocartbutton;
 	@FindBy(xpath="//span[@class='wishlist-label']") WebElement wishlist;
 	@FindBy(xpath="//button[text()='Search']") WebElement magnifier;
 	@FindBy(xpath="//div[text()='No products were found that matched your criteria.']") WebElement noprod;
@@ -44,7 +47,7 @@ public class ShoppingApparelPage extends  AutomationBaseClass{
 	
 	Actions act=new Actions(wd);
 	JavascriptExecutor js=(JavascriptExecutor) wd;
-	
+	WebDriverWait wait = new WebDriverWait(wd, Duration.ofSeconds(10));
 	public String scrollandvalidatePElements() throws Exception {
 		
 		js.executeScript("arguments[0].scrollIntoView(true);", apparel);
@@ -58,44 +61,25 @@ public class ShoppingApparelPage extends  AutomationBaseClass{
 	}
 	public void shoppe() throws InterruptedException {
 		cam.click();
-		Thread.sleep(5000);
+		wait.until(ExpectedConditions.visibilityOf(mirrorless));
 		js.executeScript("arguments[0].scrollIntoView(true);", mirrorless);
-		Thread.sleep(2000);
+		wait.until(ExpectedConditions.visibilityOf(mirrorless));
 		mirrorless.click();
-		Thread.sleep(2000);
+		wait.until(ExpectedConditions.visibilityOf(fullimg));
 		fullimg.click();
-		Thread.sleep(2000);
+		wait.until(ExpectedConditions.visibilityOf(close));
 		close.click();
 		quantity.sendKeys(Keys.BACK_SPACE);
-		quantity.sendKeys("12");
+		Thread.sleep(1000);
+		quantity.sendKeys("2");
 		Thread.sleep(2000);
-		addtowishlist.click();
-		Thread.sleep(2000);
-		closeconfmsg.click();
-		wishlist.click();
-		Thread.sleep(7000);
-		quant.sendKeys(Keys.BACK_SPACE);
-		quant.sendKeys("1");
-		Thread.sleep(2000);
-		updatecart.click();
-		Thread.sleep(3000);
-		chkbox.click();
+	}
+	public CartPage addtoCart() {
 		addtocartbutton.click();
-		act.moveToElement(search).build().perform();
-		Thread.sleep(2000);
-		search.sendKeys("headphone");
-		Thread.sleep(2000);
-		magnifier.click();
-		Thread.sleep(2000);
-		try {
-			cart.click();
-			Thread.sleep(2000);
-			gotoCart.click();
-			tos.click();
-			checkout.click();
-			Thread.sleep(2000);
-		}
-		catch(NullPointerException e) {
-			e.printStackTrace();
-		}
-	}}
+		cart.click();
+		wait.until(ExpectedConditions.visibilityOf(gotoCart));
+		gotoCart.click();
+		wait.until(ExpectedConditions.titleContains("cart"));
+		return new CartPage();
+	}
+}

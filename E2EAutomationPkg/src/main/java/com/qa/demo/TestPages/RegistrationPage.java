@@ -58,7 +58,7 @@ public class RegistrationPage extends AutomationBaseClass {
 		return wd.getTitle();
 	}
 
-	public void enterRegistrationDetails() throws InterruptedException {
+	public void enterRegistrationDetails(String email) throws InterruptedException {
 		femaleButton.click();
 		firstName.sendKeys("firstname");
 		lastName.sendKeys("lastName");
@@ -71,39 +71,39 @@ public class RegistrationPage extends AutomationBaseClass {
 		select = new Select(yearPicker);
 		select.selectByVisibleText("2020");
 		Thread.sleep(2000);
-		eid.sendKeys("demo.co");
+		eid.sendKeys(email);
 		company.sendKeys("ABC");
 		js.executeScript("arguments[0].scrollIntoView(true);", Newsletter);
 		Thread.sleep(5000);
 		Newsletter.click();
 	}
 
-	public void password() {
+	public void password(String pwd) {
 
 		Password.sendKeys(pwd);
 		Password.sendKeys(Keys.ENTER);
 	}
 
-	public boolean passwordMsgs() {
-		if (errorMsg1.isDisplayed()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+//	public boolean passwordMsgs() {
+//		if (errorMsg1.isDisplayed()) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+//	}
 
-	public void confPassword() throws InterruptedException {
+	public void confPassword(String pwd) throws InterruptedException {
 		confirmPassword.sendKeys(pwd);
 		register.click();
 		Thread.sleep(1000);
 	}
 	public String regStatus() throws InterruptedException {
 		try {
-			regSuccess.isDisplayed();
+			continueButton.isDisplayed();
 			continueButton.click();
-			Thread.sleep(1000);
-			return regSuccess.toString();}
-		catch(NoSuchElementException e) 
+			Thread.sleep(3000);
+			return  "Your registration completed";}
+		catch(NoSuchElementException e)
 		{
 			return "The specified email already exists";
 		}

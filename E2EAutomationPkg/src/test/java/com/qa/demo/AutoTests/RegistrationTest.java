@@ -20,22 +20,23 @@ public class RegistrationTest extends AutomationBaseClass{
   public void validateRegisterPageOptions() throws InterruptedException {
 	  Assert.assertEquals(rp.validateRegistrationButton(),
 			  "nopCommerce demo store. Register", "Did not direct to register page");
-	  rp.enterRegistrationDetails();
+	  rp.enterRegistrationDetails(prop.getProperty("email"));
   }
   @Test(priority=2)
   public void passwordScenarioandRegisterButtonTest() throws InterruptedException {
-	  rp.password();
-	  Thread.sleep(3000);
-	  if(rp.pwd.length()<6) {
-		  Assert.assertEquals(rp.passwordMsgs(), true);
-	  }else {
-		  rp.confPassword();
-		  Thread.sleep(3000);
-	  }
+	  rp.password(prop.getProperty("pwd"));
+	  Thread.sleep(1000);
+//	  if(rp.pwd.length()<6) {
+//		  Assert.assertEquals(rp.passwordMsgs(), true);
+//	  }else {
+		  rp.confPassword(prop.getProperty("pwd"));
+		  Thread.sleep(5000);
+//	  }
   }
   @Test(priority=3)
   public void registrationStatus() throws InterruptedException {
-	  Assert.assertEquals(rp.regStatus(), "Your registration completed", "Registration not successful-");
+	 Assert.assertEquals(rp.regStatus(), "Your registration completed", "Registration not successful-");
+	 
   }
   @AfterTest
   public void close() {

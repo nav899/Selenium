@@ -17,14 +17,15 @@ public class shoppingApparelTest  extends AutomationBaseClass{
 	  initialisation();
 	  lp=new LoginPage();
 	  lp.enterLogin();
-	  lp.Loginmethod(prop.getProperty("email"), prop.getProperty("password"));
+	  lp.Loginmethod(prop.getProperty("email"), prop.getProperty("pwd"));
 	  apprl=new ShoppingApparelPage();
 	  apprl.scrollandvalidatePElements();
+	 
 	 
   }
   @Test
   public void shop() throws InterruptedException {
-	  apprl.shoppe();
+	  apprl.shoppe(); apprl.addtoCart();
 	  closure();
   }
 }

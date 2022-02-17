@@ -24,10 +24,15 @@ public class SearchTest extends AutomationBaseClass {
 		lp.Loginmethod(prop.getProperty("email"), prop.getProperty("pwd"));
 	}
 	
-	
+	@Test
+	public void searchusingExcelUtility() {
+		String result=sp.searchProduct(eu.readExceldata());
+		Thread.sleep(2000);
+		System.out.println("Product result: "+ result);
+	}
 	
 
-	@Test(dataProvider = "dp")
+	//@Test(dataProvider = "dp")
 	public void searchtest(String email, String pwd, String prod) throws InterruptedException {
 		
 		String result=sp.searchProduct(prod);
